@@ -1,14 +1,29 @@
 import 'package:flutter/material.dart';
+import 'package:guitar/models/chord_model.dart';
 import 'package:guitar/models/menu_item.dart';
-import 'package:guitar/screens/guitar.dart';
+import 'package:provider/provider.dart';
+
+import '../models/chord.dart';
 
 class MenuItems {
-  static const aChord = MenuItem('A chord');
-  static const bChord = MenuItem('B chord');
+  static const all = MenuItem('All');
+  static const aChord = MenuItem('A');
+  static const bChord = MenuItem('B');
+  static const cChord = MenuItem('C');
+  static const dChord = MenuItem('D');
+  static const eChord = MenuItem('E');
+  static const fChord = MenuItem('F');
+  static const gChord = MenuItem('G');
 
   static const items = <MenuItem>[
+    all,
     aChord,
     bChord,
+    cChord,
+    dChord,
+    eChord,
+    fChord,
+    gChord,
   ];
 }
 
@@ -19,29 +34,25 @@ class Menu extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
         backgroundColor: Colors.indigo,
-        body: SafeArea(
+        body: Center(
+          child: SingleChildScrollView(
             child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            Spacer(),
-            ...MenuItems.items.map(buildMenuItem).toList(),
-            Spacer(flex: 2),
-          ],
-        )));
+              children: <Widget>[
+                ...MenuItems.items
+                    .map((item) => buildMenuItem(item, context))
+                    .toList(),
+              ],
+            ),
+          ),
+        ));
   }
 
-  Widget buildMenuItem(MenuItem item) => ListTile(
+  Widget buildMenuItem(MenuItem item, BuildContext context) => ListTile(
       minLeadingWidth: 20,
-      leading: Icon(Icons.abc),
-      title: Text(item.title),
+      leading: Icon(Icons.music_note),
+      title: Text(item.toString()),
       onTap: () {
-        Guitar.setChord(Chord.b);
+        context.read<ChordModel>().changeNote(item.note);
+        print(item.note);
       });
-}
-
-enum Chord {
-  a,
-  asharp,
-  b,
-  bsharp,
 }

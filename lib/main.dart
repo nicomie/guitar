@@ -1,11 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_zoom_drawer/config.dart';
 import 'package:flutter_zoom_drawer/flutter_zoom_drawer.dart';
+import 'package:guitar/models/chord_model.dart';
 import 'package:guitar/screens/guitar.dart';
 import 'package:guitar/screens/menu.dart';
+import 'package:provider/provider.dart';
 
 void main() {
-  runApp(const Main());
+  runApp(
+    ChangeNotifierProvider(
+        create: (context) => ChordModel(), child: const Main()),
+  );
 }
 
 class Main extends StatefulWidget {
